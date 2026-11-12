@@ -1,0 +1,29 @@
+{
+  "name": "citas-app",
+  "version": "1.0.0",
+  "description": "Aplicación web moderna de citas tipo Tinder con Node.js, Express, Supabase y lista para desplegar en Vercel",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": [
+    "citas",
+    "dating",
+    "tinder-clone",
+    "supabase",
+    "vercel",
+    "express"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.49.1",
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "uuid": "^11.1.0"
+  }
+}
