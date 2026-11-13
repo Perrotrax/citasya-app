@@ -80,3 +80,4 @@ router.post('/:matchId/messages', authMiddleware, async (req, res) => {
 });
 
 module.exports = router;
+

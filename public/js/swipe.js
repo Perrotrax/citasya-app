@@ -176,3 +176,4 @@ class SwipeCardController {
     }, 380);
   }
 }
+

@@ -95,3 +95,4 @@ VALUES
 
 ('00000000-0000-0000-0000-000000000006', 'mateo@citasya.com', '$2b$10$wT8KzI496VfCjE288j/hpeq7hO6Z.oM03t8c6Y1yJ9M9pUv2qD3wS', 'Mateo Silva', 28, 'hombre', 'mujeres', 'Crossfit, running y vida activa 🏃‍♂️. Me fascina acampar bajo las estrellas.', 'Querétaro', 'Entrenador Personal', '["https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=800&q=80"]'::jsonb, '["Fitness", "Running", "Aventura", "Camping", "Nutrición"]'::jsonb, TRUE)
 ON CONFLICT (id) DO NOTHING;
+

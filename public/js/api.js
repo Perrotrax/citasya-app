@@ -157,3 +157,4 @@ const API = {
     this.setCurrentUser(null);
   }
 };
+

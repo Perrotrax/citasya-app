@@ -153,3 +153,4 @@ Si prefieres un servidor Node tradicional en lugar de serverless:
    - **Start Command**: `node server.js`
 4. Agrega las mismas variables de entorno (`JWT_SECRET`, `SUPABASE_URL`, `SUPABASE_KEY`).
 5. Haz clic en **Create Web Service** y obtendrás tu URL gratis en `onrender.com`.
+
