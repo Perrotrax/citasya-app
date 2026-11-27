@@ -76,11 +76,15 @@ aplicacion de citas/
    ```bash
    npm install
    ```
-3. Inicia el servidor:
+3. Copia `.env.example` a `.env` y define `JWT_SECRET` con una clave aleatoria de al menos 32 bytes. Puedes generarla con:
+   ```bash
+   node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+   ```
+4. Inicia el servidor:
    ```bash
    npm start
    ```
-4. Abre tu navegador en:
+5. Abre tu navegador en:
    ```text
    http://localhost:3000
    ```
@@ -103,10 +107,10 @@ A continuación se explican los pasos para tener la app funcionando en internet 
 1. Ingresa a [https://supabase.com](https://supabase.com) y crea una cuenta gratuita (*Sign Up with GitHub* o correo).
 2. Haz clic en **"New Project"**, asígnale un nombre (ej. `citasya-db`) y una contraseña para la base de datos.
 3. En el menú lateral izquierdo, ve a **SQL Editor**.
-4. Abre el archivo local `database/schema.sql`, copia todo su contenido, pégalo en el editor de Supabase y presiona **Run**.
+4. Abre el archivo local `database/schema.sql`, copia todo su contenido, pégalo en el editor de Supabase y presiona **Run**. Si ya habías ejecutado una versión anterior, vuelve a ejecutar este archivo actualizado para retirar las políticas de acceso público anteriores.
 5. Ve a **Project Settings (ícono de engranaje)** -> **API**:
    - Copia la **Project URL** (ejemplo: `https://xyzcompany.supabase.co`).
-   - Copia la clave **anon / public** o **service_role**.
+   - Copia la clave **service_role**. Se guardará solo como variable del backend en Vercel; no la pongas en archivos públicos ni en el frontend.
 
 ---
 
@@ -134,11 +138,11 @@ A continuación se explican los pasos para tener la app funcionando en internet 
 2. Haz clic en **"Add New..."** -> **"Project"**.
 3. Selecciona tu repositorio `citasya-app` y haz clic en **Import**.
 4. En la sección **Environment Variables**, añade:
-   - `JWT_SECRET`: una clave secreta (ej. `mi_secreto_super_seguro_2026`)
-   - `SUPABASE_URL`: la URL que copiaste de Supabase (ej. `https://xyzcompany.supabase.co`)
-   - `SUPABASE_KEY`: la clave anon o service de Supabase
+   - `JWT_SECRET`: una clave aleatoria generada localmente con el comando del paso de ejecución local.
+   - `SUPABASE_URL`: la URL del proyecto Supabase.
+   - `SUPABASE_SERVICE_ROLE_KEY`: la clave **service_role** del backend.
 5. Haz clic en **Deploy**.
-6. En 30-60 segundos, Vercel te entregará una URL pública y gratuita (ejemplo: `https://citasya-app.vercel.app`) con certificado SSL (HTTPS) automático.
+6. Vercel te entregará una URL pública y gratuita con certificado SSL (HTTPS) automático.
 
 ---
 
@@ -151,6 +155,6 @@ Si prefieres un servidor Node tradicional en lugar de serverless:
    - **Environment**: `Node`
    - **Build Command**: `npm install`
    - **Start Command**: `node server.js`
-4. Agrega las mismas variables de entorno (`JWT_SECRET`, `SUPABASE_URL`, `SUPABASE_KEY`).
+4. Agrega las mismas variables de entorno (`JWT_SECRET`, `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`).
 5. Haz clic en **Create Web Service** y obtendrás tu URL gratis en `onrender.com`.
 

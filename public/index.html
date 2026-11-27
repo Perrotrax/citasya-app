@@ -390,6 +390,9 @@
   ============================================== -->
   <div class="auth-modal-overlay hidden" id="auth-modal">
     <div class="auth-card">
+      <button type="button" class="btn-close-auth" id="btn-close-auth" aria-label="Cerrar">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
       <div class="auth-card-header">
         <div class="brand-flame"><i class="fa-solid fa-fire"></i></div>
         <h3>Bienvenido a <span class="brand-accent">CitasYa</span></h3>
@@ -410,7 +413,7 @@
         </div>
         <div class="form-group">
           <label>Contraseña</label>
-          <input type="password" id="login-password" placeholder="••••••••" value="password123" required>
+          <input type="password" id="login-password" placeholder="••••••••" minlength="6" required>
         </div>
         <button type="submit" class="btn-primary btn-block">
           <i class="fa-solid fa-arrow-right-to-bracket"></i> Entrar
@@ -442,7 +445,12 @@
 
         <div class="form-group">
           <label>Contraseña</label>
-          <input type="password" id="reg-password" placeholder="Mínimo 6 caracteres" required>
+          <input type="password" id="reg-password" placeholder="Mínimo 6 caracteres" minlength="6" autocomplete="new-password" required>
+        </div>
+
+        <div class="form-group">
+          <label>Confirmar contraseña</label>
+          <input type="password" id="reg-password-confirm" placeholder="Repite tu contraseña" minlength="6" autocomplete="new-password" required>
         </div>
 
         <div class="form-row">

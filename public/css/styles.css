@@ -1534,10 +1534,40 @@ body {
   background: var(--bg-card);
   width: 100%;
   max-width: 420px;
+  max-height: calc(100vh - 3rem);
+  overflow-y: auto;
   border-radius: var(--radius-xl);
   border: 1px solid var(--border-color);
   padding: 2rem;
   box-shadow: var(--shadow-lg);
+  position: relative;
+}
+
+body.auth-open {
+  overflow: hidden;
+}
+
+.btn-close-auth {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--border-color);
+  background: var(--bg-surface);
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.btn-close-auth:hover {
+  color: white;
+  border-color: rgba(253, 41, 123, 0.5);
+  background: rgba(253, 41, 123, 0.15);
 }
 
 .auth-card-header {

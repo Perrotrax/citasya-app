@@ -13,6 +13,10 @@ router.post('/register', async (req, res) => {
       return res.status(400).json({ error: 'Email, contraseña, nombre y edad son campos obligatorios.' });
     }
 
+    if (password.length < 6) {
+      return res.status(400).json({ error: 'La contraseña debe tener al menos 6 caracteres.' });
+    }
+
     if (parseInt(age) < 18) {
       return res.status(400).json({ error: 'Debes ser mayor de 18 años para registrarte.' });
     }
@@ -73,9 +77,9 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ error: 'Credenciales inválidas. Correo no encontrado.' });
     }
 
-    // Verificar contraseña con bcrypt o bypass para cuentas demo con 'password123'
+    // Verificar contraseña con bcrypt o permitir claves conocidas solo en cuentas demo.
     let isMatch = await bcrypt.compare(password, user.password_hash);
-    if (!isMatch && (password === 'password123' || password === '123456')) {
+    if (!isMatch && user.is_demo === true && (password === 'password123' || password === '123456')) {
       isMatch = true;
     }
 

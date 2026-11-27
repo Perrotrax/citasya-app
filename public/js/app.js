@@ -81,19 +81,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         API.logout();
       }
     }
-
-    // Auto-login con cuenta Demo para que el usuario pueda probar de inmediato
-    try {
-      const res = await API.login('demo@citasya.com', 'password123');
-      currentUser = res.user;
-      updateUserUI();
-      await loadDiscoverCards();
-      await loadMatchesList();
-      showToast('¡Sesión iniciada como ' + currentUser.name + '!', 'success');
-    } catch (err) {
-      // Si no existe, abrir modal de auth
-      openAuthModal();
-    }
+    openAuthModal();
   }
 
   function updateUserUI() {
@@ -778,7 +766,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Clic en avatar de cabecera abre perfil
     document.getElementById('btn-header-user').addEventListener('click', () => {
-      switchView('view-profile');
+      if (currentUser) {
+        switchView('view-profile');
+      } else {
+        openAuthModal();
+      }
     });
   }
 
@@ -827,11 +819,13 @@ document.addEventListener('DOMContentLoaded', async () => {
   // MODAL DE AUTENTICACIÓN
   // ========================================================
   function openAuthModal() {
+    document.body.classList.add('auth-open');
     authModal.classList.remove('hidden');
   }
 
   function closeAuthModal() {
     authModal.classList.add('hidden');
+    document.body.classList.remove('auth-open');
   }
 
   // Pestañas Login / Registro
@@ -852,6 +846,18 @@ document.addEventListener('DOMContentLoaded', async () => {
     tabLogin.classList.remove('active');
     formRegister.classList.add('active-form');
     formLogin.classList.remove('active-form');
+  });
+
+  document.getElementById('btn-close-auth').addEventListener('click', closeAuthModal);
+
+  authModal.addEventListener('click', (e) => {
+    if (e.target === authModal) closeAuthModal();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !authModal.classList.contains('hidden')) {
+      closeAuthModal();
+    }
   });
 
   // Login Submit
@@ -895,8 +901,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     const age = document.getElementById('reg-age').value;
     const email = document.getElementById('reg-email').value.trim();
     const password = document.getElementById('reg-password').value;
+    const passwordConfirm = document.getElementById('reg-password-confirm').value;
     const gender = document.getElementById('reg-gender').value;
     const interested_in = document.getElementById('reg-interested-in').value;
+
+    if (password !== passwordConfirm) {
+      showToast('Las contraseñas no coinciden.', 'error');
+      document.getElementById('reg-password-confirm').focus();
+      return;
+    }
 
     try {
       const res = await API.register({

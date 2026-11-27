@@ -57,28 +57,21 @@ CREATE INDEX IF NOT EXISTS idx_swipes_user_target ON public.swipes(user_id, targ
 CREATE INDEX IF NOT EXISTS idx_matches_users ON public.matches(user1_id, user2_id);
 CREATE INDEX IF NOT EXISTS idx_messages_match ON public.messages(match_id, created_at ASC);
 
--- Desactivar RLS o crear políticas públicas para API directa con clave anónima o service_role
+-- El backend usa exclusivamente la clave service_role, que nunca debe exponerse al cliente.
 ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.swipes ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.matches ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.messages ENABLE ROW LEVEL SECURITY;
 
--- Políticas permisivas para la API backend
-DO $$ 
-BEGIN
-    IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'Public Access Profiles') THEN
-        CREATE POLICY "Public Access Profiles" ON public.profiles FOR ALL USING (true) WITH CHECK (true);
-    END IF;
-    IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'Public Access Swipes') THEN
-        CREATE POLICY "Public Access Swipes" ON public.swipes FOR ALL USING (true) WITH CHECK (true);
-    END IF;
-    IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'Public Access Matches') THEN
-        CREATE POLICY "Public Access Matches" ON public.matches FOR ALL USING (true) WITH CHECK (true);
-    END IF;
-    IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'Public Access Messages') THEN
-        CREATE POLICY "Public Access Messages" ON public.messages FOR ALL USING (true) WITH CHECK (true);
-    END IF;
-END $$;
+-- Retirar las políticas abiertas de versiones anteriores y bloquear acceso directo
+-- a través de las claves anon/authenticated de Supabase.
+DROP POLICY IF EXISTS "Public Access Profiles" ON public.profiles;
+DROP POLICY IF EXISTS "Public Access Swipes" ON public.swipes;
+DROP POLICY IF EXISTS "Public Access Matches" ON public.matches;
+DROP POLICY IF EXISTS "Public Access Messages" ON public.messages;
+
+REVOKE ALL ON TABLE public.profiles, public.swipes, public.matches, public.messages
+FROM anon, authenticated;
 
 -- Datos de Ejemplo (Seed) para probar inmediatamente la aplicación
 INSERT INTO public.profiles (id, email, password_hash, name, age, gender, interested_in, bio, city, occupation, photos, interests, is_demo)
